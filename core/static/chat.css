@@ -1,0 +1,207 @@
+/* ----------------------------------------------
+   GLOBAL DARK THEME (smooth, unified)
+---------------------------------------------- */
+body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: linear-gradient(165deg, #0d1117, #111722 70%, #0c1018);
+    margin: 0;
+    padding: 35px;
+    color: #e7ecff;
+}
+
+h2, h3, p {
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+/* ----------------------------------------------
+   REUSABLE GLASS PANEL
+---------------------------------------------- */
+.glass {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+}
+
+/* ----------------------------------------------
+   CHAT MESSAGES BOX
+---------------------------------------------- */
+#messages {
+    height: 320px;
+    padding: 14px;
+    overflow-y: auto;
+}
+
+#messages {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(20px);
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+}
+
+#messages div {
+    padding: 8px 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: #dbe2ff;
+}
+
+#messages div:last-child {
+    border-bottom: none;
+}
+
+#messages div:hover {
+    background: rgba(255,255,255,0.10);
+}
+
+/* ----------------------------------------------
+   MESSAGE INPUT + SEND BUTTON
+---------------------------------------------- */
+#msgInput {
+    width: 70%;
+    padding: 10px 14px;
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #eaefff;
+    backdrop-filter: blur(10px);
+
+    margin-right: 10px;
+    margin-top: 14px;
+}
+
+#msgInput::placeholder {
+    color: #90a0d0;
+    opacity: 0.7;
+}
+
+button.btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+
+    background: rgba(120,140,255,0.20);
+    border: 1px solid rgba(120,140,255,0.35);
+    color: white;
+    backdrop-filter: blur(10px);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+button.btn:hover {
+    background: rgba(140,150,255,0.30);
+    transform: translateY(-2px);
+}
+
+/* ----------------------------------------------
+   MEMBERS BUTTON
+---------------------------------------------- */
+#showMembersBtn {
+    margin-top: 18px;
+    padding: 8px 18px;
+    border-radius: 10px;
+
+    background: rgba(80,100,255,0.20);
+    border: 1px solid rgba(120,140,255,0.35);
+    color: white;
+    backdrop-filter: blur(10px);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+#showMembersBtn:hover {
+    background: rgba(80,100,255,0.30);
+    transform: translateY(-2px);
+}
+
+/* ----------------------------------------------
+   MEMBERS PANEL (glass card)
+---------------------------------------------- */
+#membersPanel {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 14px;
+
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+}
+
+/* ----------------------------------------------
+   MEMBER ROWS (matching room box style)
+---------------------------------------------- */
+.member-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    transition: 0.2s ease;
+    border-radius: 8px;
+}
+
+.member-row:hover {
+    background: rgba(255,255,255,0.10);
+}
+
+.member-info strong {
+    color: #e7edff;
+    font-size: 15px;
+}
+
+.member-info .email {
+    color: #b7c3f0;
+    font-size: 12px;
+}
+
+.member-info .role {
+    font-size: 12px;
+    font-weight: bold;
+    color: #8ab1ff;
+}
+
+/* ----------------------------------------------
+   DROPDOWN BUTTON + MENU (glass bubble)
+---------------------------------------------- */
+.dropdown-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #dce1ff;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 150px;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    border-radius: 12px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+    overflow: hidden;
+}
+
+.dropdown-menu .item {
+    padding: 12px 16px;
+    cursor: pointer;
+    color: #e7eaff;
+    transition: 0.15s ease;
+}
+
+.dropdown-menu .item:hover {
+    background: rgba(120,140,255,0.20);
+}

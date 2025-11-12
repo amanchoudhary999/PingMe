@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+
+<body>
+
+<div class="login-wrapper">
+    <div class="login-card">
+
+        <h1>Welcome Back</h1>
+        <p class="sub">Please login to continue</p>
+
+        <form id="loginForm" class="login-form" method="post" action="/login/">
+            {% csrf_token %}
+
+            <!-- Preserve ?next= parameter -->
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% elif request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
+
+            <label>Email</label>
+            <input type="email" name="email" id="emailInput" required placeholder="Enter email">
+
+            <label>Password</label>
+            <input type="password" name="password" id="passwordInput" required placeholder="Enter password">
+
+            <button type="submit" class="login-btn">Login</button>
+
+            {% if error %}
+                <p class="error-message">{{ error }}</p>
+            {% endif %}
+        </form>
+
+    </div>
+</div>
+
+<script>
+/* ========= LOGIN PAGE JS ========= */
+
+/* Improve UX: Press Enter focuses next field or submits form */
+document.getElementById("emailInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("passwordInput").focus();
+    }
+});
+
+document.getElementById("passwordInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("loginForm").submit();
+    }
+});
+
+/* Auto-focus email on page load */
+window.onload = function() {
+    const emailField = document.getElementById("emailInput");
+    if (emailField) emailField.focus();
+};
+</script>
+
+</body>
+</html>

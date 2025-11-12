@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PingMe — Connect Instantly</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home2.css' %}">
+</head>
+<body>
+
+    <div class="hero glass-hero">
+        <h1>Welcome to PingMe</h1>
+        <p>
+            Real-time chat platform where conversations happen instantly.  
+            Join communities, share ideas, and connect with people in real time.
+        </p>
+    </div>
+
+    <div class="form-box glass-card">
+        <h3>Create an Account</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Username</label>
+            <input type="text" name="username" required>
+
+            <label>Password</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="login-link">
+            Already have an account? <a href="/login/">Login</a>
+        </p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Room</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'chat.css' %}">
+</head>
+<body>
+
+<h2>Room: {{ room.name }}</h2>
+<p>Logged in as: {{ user.name }}</p>
+
+<!-- Messages -->
+<div id="messages" class="messages-box"></div>
+
+<br>
+
+<!-- Message Input -->
+<input id="msgInput" type="text" placeholder="Type message..." class="msg-input">
+<button onclick="sendMessage()" class="btn">Send</button>
+
+<hr>
+
+<!-- Members -->
+<button id="showMembersBtn" onclick="toggleMembers()">Show Members</button>
+
+<div id="membersPanel" style="display:none;">
+  <h3>Room Members</h3>
+  <div id="membersList">Loading...</div>
+</div>
+
+<hr>
+
+<!-- Invite -->
+<button onclick="copyInviteLink()">Copy Invite Link</button>
+<span id="copyStatus" style="margin-left:10px; color:green;"></span>
+
+<script>
+const roomId = "{{ room.id }}";
+const userName = "{{ user.name }}";
+
+// --------------------------------------------------
+// Helper: Get cookie value
+// --------------------------------------------------
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+}
+
+// --------------------------------------------------
+// Copy Invite Link
+// --------------------------------------------------
+function copyInviteLink() {
+  const link = `${window.location.origin}/chat/${roomId}/?invite=1`;
+  navigator.clipboard.writeText(link).then(() => {
+    document.getElementById("copyStatus").innerText = "✅ Copied!";
+    setTimeout(() => document.getElementById("copyStatus").innerText = "", 2000);
+  });
+}
+
+// --------------------------------------------------
+// WebSocket Connect (with protocol detection)
+// --------------------------------------------------
+let socket = null;
+
+function connectWS() {
+  const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+  socket = new WebSocket(`${protocol}://${window.location.host}/ws/chat/${roomId}/`);
+
+  socket.onopen = () => console.log("✅ WS Connected:", roomId);
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    addMessage(data.user, data.content);
+  };
+
+  socket.onclose = () => {
+    console.log("❌ WebSocket closed, retrying...");
+    setTimeout(connectWS, 2000);
+  };
+}
+
+// --------------------------------------------------
+// Send & Display Messages
+// --------------------------------------------------
+function sendMessage() {
+  const input = document.getElementById("msgInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    alert("Connection not ready — please wait a moment.");
+    return;
+  }
+
+  socket.send(JSON.stringify({ message: text }));
+  input.value = "";
+}
+
+function addMessage(user, text) {
+  const box = document.getElementById("messages");
+  const div = document.createElement("div");
+  div.innerHTML = `<strong>${user}:</strong> ${text}`;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+// --------------------------------------------------
+// Load messages (with session + CSRF ensured)
+// --------------------------------------------------
+async function loadOldMessages() {
+  try {
+    const csrfToken = getCookie("csrftoken");
+    if (!csrfToken) {
+      // request a CSRF token cookie first
+      await fetch("/api/auth/csrf/", { credentials: "include" });
+    }
+
+    const res = await fetch(`/api/rooms/${roomId}/messages/?limit=50`, {
+      credentials: "include",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken") || "",
+      },
+    });
+
+    if (res.status === 401 || res.status === 403) {
+      console.warn("Not logged in — redirecting to login...");
+      window.location.href = `/login/?next=/chat/${roomId}/?invite=1`;
+      return;
+    }
+
+    const data = await res.json();
+    if (!Array.isArray(data)) return;
+
+    data
+      .sort((a, b) => new Date(a.created) - new Date(b.created))
+      .forEach(m => addMessage(m.user, m.content));
+  } catch (err) {
+    console.error("Fetch error:", err);
+  }
+}
+
+// --------------------------------------------------
+// Members Panel
+// --------------------------------------------------
+function toggleMembers() {
+  const panel = document.getElementById("membersPanel");
+  if (panel.style.display === "none") {
+    panel.style.display = "block";
+    loadMembers();
+  } else {
+    panel.style.display = "none";
+  }
+}
+
+function createMemberRow(member) {
+  const row = document.createElement("div");
+  row.className = "member-row";
+  row.innerHTML = `
+    <strong>${member.username}</strong>
+    <span class="email">${member.email}</span>
+    <span class="role">${member.is_admin ? "Admin" : ""}</span>
+  `;
+  return row;
+}
+
+async function loadMembers() {
+  try {
+    const res = await fetch(`/api/rooms/${roomId}/members/`, {
+      credentials: "include",
+      headers: { "X-CSRFToken": getCookie("csrftoken") || "" }
+    });
+    const data = await res.json();
+
+    const box = document.getElementById("membersList");
+    box.innerHTML = "";
+
+    if (!data.members || data.members.length === 0) {
+      box.innerHTML = "<p>No members</p>";
+      return;
+    }
+
+    data.members.forEach(m => box.appendChild(createMemberRow(m)));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// --------------------------------------------------
+// Init — ensure session, load messages, and connect WS
+// --------------------------------------------------
+(async function init() {
+  await loadOldMessages();
+  connectWS();
+})();
+</script>
+
+</body>
+</html>

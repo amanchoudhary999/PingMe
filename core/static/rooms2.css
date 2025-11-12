@@ -1,0 +1,195 @@
+/* ----------------------------------------------
+   GLOBAL DARK BACKGROUND (smooth + even)
+---------------------------------------------- */
+body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: linear-gradient(165deg, #0d1117, #111722 70%, #0c1018);
+    margin: 0;
+    padding: 40px;
+    color: #e7ecff;
+}
+
+/* ----------------------------------------------
+   HEADINGS
+---------------------------------------------- */
+h2, h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+/* ----------------------------------------------
+   NEW ROOM CREATION AREA
+   (fix spacing under the input/button row)
+---------------------------------------------- */
+.newroom {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;   /* ✅ Fix: adds space from room list */
+}
+
+/* Input styling */
+.newroom input[type="text"] {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.09);
+    color: #dbe1ff;
+    backdrop-filter: blur(10px);
+}
+
+.newroom input::placeholder {
+    color: #98a0c7;
+}
+
+/* Button styling */
+.newroom button {
+    padding: 9px 18px;
+    border-radius: 10px;
+    background: rgba(120,140,255,0.20);
+    border: 1px solid rgba(120,140,255,0.35);
+    color: white;
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.newroom button:hover {
+    background: rgba(120,140,255,0.35);
+    transform: translateY(-2px);
+}
+
+/* ----------------------------------------------
+   ROOM CARDS (full glass look)
+---------------------------------------------- */
+#rooms > div {
+    background: rgba(255, 255, 255, 0.06);         /* ✅ Glass body */
+    border: 1px solid rgba(255, 255, 255, 0.10);   /* ✅ Soft border */
+    backdrop-filter: blur(18px);                   /* ✅ Frosted blur */
+    -webkit-backdrop-filter: blur(18px);
+
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.40);
+
+    transition: 0.25s ease;
+}
+
+#rooms > div:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.55);
+}
+
+/* Room name text */
+#rooms strong {
+    color: #f0f4ff;
+    font-size: 17px;
+}
+
+/* ----------------------------------------------
+   ENTER BUTTON INSIDE ROOM CARD
+---------------------------------------------- */
+/* --------------------------------------------------
+   ENTER BUTTON — RIGHT SIDE + GLASS + ROUNDED
+-------------------------------------------------- */
+#rooms button {
+    float: right;            /* ✅ Move button to the right */
+    padding: 8px 20px;
+    
+    /* Rounded shape */
+    border-radius: 50px;     /* pill-style rounded */
+
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.20);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    margin-top: 8px;
+}
+
+#rooms button:hover {
+    background: rgba(255,255,255,0.22);
+    transform: translateY(-2px);
+}
+
+/* ----------------------------------------------
+   LOGOUT BUTTON (consistent design)
+---------------------------------------------- */
+button {
+    padding: 9px 18px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.20);
+    color: #ffffff;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background: rgba(255,255,255,0.20);
+    transform: translateY(-2px);
+}
+
+/* ----------------------------------------------
+   ROOM BOX turned into horizontal glass bar
+---------------------------------------------- */
+#rooms > div {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(18px);
+    border-radius: 12px;
+
+    /* ✅ Flex: name left, button right */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.4);
+
+    transition: 0.25s ease;
+}
+
+/* Hover polish */
+#rooms > div:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+}
+
+/* ----------------------------------------------
+   ROOM TITLE
+---------------------------------------------- */
+#rooms strong {
+    color: #f3f6ff;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* ----------------------------------------------
+   ENTER BUTTON (Right side, rounded)
+---------------------------------------------- */
+#rooms button {
+    padding: 8px 22px;
+    border-radius: 50px;  /* ✅ fully rounded pill */
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#rooms button:hover {
+    background: rgba(255,255,255,0.22);
+    transform: translateY(-2px);
+}
+

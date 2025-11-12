@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Rooms</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'rooms2.css' %}">
+</head>
+<body>
+
+<h2>Welcome, {{ user.name }}</h2>
+
+<h3>Your Rooms</h3><div class ="newroom">
+<input id="newRoomName" type="text" placeholder="Room name..." style="width:70%;">
+<button onclick="createRoom()">Create</button>
+</div>
+<p></p>
+<div id="rooms"></div>
+
+<button onclick="logout()">Logout</button>
+
+<script>
+async function loadRooms() {
+    try {
+        const response = await fetch("/api/rooms/list/", {
+            method: "GET",
+            credentials: "include"
+        });
+
+        if (!response.ok) {
+            document.getElementById("rooms").innerHTML = "Failed to load rooms.";
+            return;
+        }
+
+        const data = await response.json();
+        const rooms = data.rooms || [];
+
+        let html = "";
+        rooms.forEach(room => {
+            html += `
+                <div style="margin-bottom:10px; border:1px solid #eee; padding:10px;">
+                    <strong>${room.name}</strong><br>
+                    <button onclick="enterRoom('${room.id}')">Enter</button>
+                </div>
+            `;
+        });
+
+        document.getElementById("rooms").innerHTML = html;
+    } catch (err) {
+        console.error(err);
+        document.getElementById("rooms").innerHTML = "Server error.";
+    }
+}
+
+function enterRoom(roomId) {
+    window.location.href = "/chat/" + roomId + "/";
+}
+
+async function logout() {
+    await fetch("/api/auth/logout/", {
+        method: "POST",
+        credentials: "include"
+    });
+    window.location.href = "/login/";
+}
+
+async function createRoom() {
+    const input = document.getElementById("newRoomName");
+    const name = input.value.trim();
+
+    if (!name) {
+        input.placeholder = "Please enter a room name";
+        input.focus();
+        return;
+    }
+
+    const csrfToken = getCookie("csrftoken");
+
+    const res = await fetch("/api/rooms/create/", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+        },
+        body: JSON.stringify({ name })
+    });
+
+    const data = await res.json();
+
+    const messageBox = document.createElement("p");
+    messageBox.style.color = res.ok ? "green" : "red";
+    messageBox.innerText = res.ok
+        ? `✅ Room "${name}" created successfully!`
+        : data.error || data.detail || "Failed to create room.";
+
+    document.body.appendChild(messageBox);
+
+    if (res.ok) {
+        input.value = "";
+        loadRooms(); // refresh list without reload
+    }
+}
+
+function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+}
+
+loadRooms();
+</script>
+
+
+</body>
+</html>

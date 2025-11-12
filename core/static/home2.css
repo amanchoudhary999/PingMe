@@ -1,0 +1,141 @@
+/* --------------------------------------------------
+   GLOBAL DARK BACKGROUND
+-------------------------------------------------- */
+body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: linear-gradient(165deg, #0d1117, #111722 70%, #0c1018);
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 40px;   /* Balanced spacing */
+    color: #e7ecff;
+}
+
+/* --------------------------------------------------
+   HERO SECTION (TOP CARD)
+-------------------------------------------------- */
+.glass-hero {
+    width: 90%;
+    max-width: 650px;
+
+    padding: 20px 30px;
+
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(18px);
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.45);
+
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.glass-hero h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.glass-hero p {
+    font-size: 17px;
+    color: #cfd8ff;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --------------------------------------------------
+   FORM CARD
+-------------------------------------------------- */
+.glass-card {
+    width: 380px;
+    padding: 28px;
+
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(18px);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+
+    text-align: left;
+}
+
+.glass-card h3 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    color: white;
+    font-size: 22px;
+}
+
+/* --------------------------------------------------
+   INPUT FIELDS
+-------------------------------------------------- */
+.glass-card label {
+    font-size: 14px;
+    color: #dfe4ff;
+}
+
+.glass-card input {
+    width: 100%;
+    padding: 12px;
+
+    margin-top: 8px;
+    margin-bottom: 15px;
+
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    color: #e7edff;
+}
+
+.glass-card input::placeholder {
+    color: #96a3d1;
+}
+
+/* --------------------------------------------------
+   BUTTON
+-------------------------------------------------- */
+.glass-card button {
+    width: 100%;
+    padding: 12px;
+
+    border-radius: 10px;
+    background: rgba(120,140,255,0.20);
+    border: 1px solid rgba(120,140,255,0.35);
+    color: white;
+    backdrop-filter: blur(10px);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.glass-card button:hover {
+    background: rgba(120,140,255,0.32);
+    transform: translateY(-2px);
+}
+
+/* --------------------------------------------------
+   LOGIN LINK BELOW BUTTON
+-------------------------------------------------- */
+.login-link {
+    text-align: center;
+    margin-top: 10px;
+    color: #cdd6ff;
+}
+
+.login-link a {
+    color: #8aa2ff;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
