@@ -61,5 +61,5 @@ This project uses the **InMemoryChannelLayer**, suitable for demos and internshi
 ### Build Commands
 
 
-## 🗂️ Project Structure
+
 
